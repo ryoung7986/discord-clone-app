@@ -1,1 +1,11 @@
-GET http://localhost:3000/login
+
+POST http://localhost:8000/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "sample",
+    "lastName": "sample",
+    "userName": "guydudebro",
+    "email": "guy@brodude.com",
+    "password": "3452"
+}

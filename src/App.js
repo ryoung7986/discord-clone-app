@@ -6,13 +6,21 @@ import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
+import Home from './components/Home';
 import Chat from './components/chat/Chat';
+
 
 const App = (props) => (
   <BrowserRouter>
     <Navigation />
     <Switch>
-      <ProtectedRoute isLoggedIn={props.token} path='/' exact={true} component={Chat} />
+      <ProtectedRoute
+        isLoggedIn={props.token}
+        path='/'
+        exact={true}
+        render={() => (
+          <Chat />
+        )} />
       <Route path='/login' exact={true} component={LoginForm} />
       <Route path='/signup' exact={true} component={SignUpForm} />
     </Switch>

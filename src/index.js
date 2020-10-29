@@ -4,8 +4,12 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
+import getMessages from './store/reducers/messages';
 
-const store = configureStore();
+const token = window.localStorage.getItem('discordClone/authentication/token');
+
+const store = configureStore({ auth: { token } });
+// store.dispatch(getMessages());
 
 ReactDOM.render(
   <React.StrictMode>

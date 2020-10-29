@@ -1,8 +1,8 @@
-import { baseUrl } from '../config/config';
+import { baseUrl } from '../../config/config';
 
-const TOKEN_KEY = 'discordClone/authentication/token';
-const SET_TOKEN = 'discordClone/authentication/SET_TOKEN';
-const REMOVE_TOKEN = 'discordClone/authentication/REMOVE_TOKEN';
+export const TOKEN_KEY = 'discordClone/authentication/token';
+export const SET_TOKEN = 'discordClone/authentication/SET_TOKEN';
+export const REMOVE_TOKEN = 'discordClone/authentication/REMOVE_TOKEN';
 
 export const removeToken = (token) => ({ type: REMOVE_TOKEN });
 export const setToken = (token) => ({ type: SET_TOKEN, token });
@@ -34,6 +34,10 @@ export const login = (email, password) => async (dispatch) => {
         body: JSON.stringify({ email, password }),
     });
 
+    if (!response.ok) {
+        console.log(response);
+    }
+
     if (response.ok) {
         const { token } = await response.json();
         window.localStorage.setItem(TOKEN_KEY, token);
@@ -55,27 +59,3 @@ export const logout = () => async (dispatch, getState) => {
         dispatch(removeToken());
     }
 };
-
-const initialState = {
-    token: "",
-};
-
-export default function reducer(state = initialState, action) {
-    switch (action.type) {
-        case SET_TOKEN: {
-            return {
-                ...state,
-                token: action.token,
-            };
-        }
-
-        case REMOVE_TOKEN: {
-            const newState = { ...state };
-            delete newState.token;
-            return newState;
-        }
-
-        default:
-            return state;
-    }
-}

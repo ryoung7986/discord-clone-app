@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signUp } from '../../store/authentication';
+import { signUp } from '../../store/actions/authentication';
 
 const SignUpForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -8,6 +8,7 @@ const SignUpForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [userName, setUserName] = useState('');
 
     const dispatch = useDispatch();
 
@@ -21,10 +22,12 @@ const SignUpForm = () => {
             firstName,
             lastName,
             email,
+            userName,
             password,
             confirmPassword,
         };
         dispatch(signUp(newUser));
+        window.location.href = '/';
     };
 
     return (
@@ -50,6 +53,13 @@ const SignUpForm = () => {
                     placeholder='Email'
                     value={email}
                     onChange={updateProperty(setEmail)}
+                    required
+                />
+                <input
+                    type='userName'
+                    placeholder='Desired Username'
+                    value={userName}
+                    onChange={updateProperty(setUserName)}
                     required
                 />
                 <input
