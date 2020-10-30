@@ -1,14 +1,13 @@
 import React from 'react'
-import ChatHeader from './chat/ChatHeader';
 import Chat from './chat/Chat';
-import Message from './chat/Message';
+import Sidebar from './sidebar/Sidebar';
 
-function Home() {
+function Home(props) {
     return (
         <>
-            <Chat />
-            <ChatHeader />
-            <Message />
+            <div></div>
+            {/* <Chat />
+            <Sidebar /> */}
         </>
     )
 }

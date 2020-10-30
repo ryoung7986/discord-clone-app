@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../../store/actions/authentication';
+import { login, updateEmailValue } from '../../store/actions/authentication';
+import { connect } from 'react-redux';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('demo@example.com');
+    const [email, setEmail] = useState();
     const [password, setPassword] = useState('password');
     const token = useSelector((state) => state.authentication.token);
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(email, password)
         // debugger;
+        dispatch(updateEmailValue(email));
         dispatch(login(email, password));
     };
 
@@ -46,4 +47,20 @@ const LoginForm = () => {
     );
 };
 
+
 export default LoginForm;
+
+
+
+
+
+
+
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         updateEmailValue: event => dispatch(updateEmailValue(event.target.value))
+//     };
+// };
+
+// export default connect(null)(LoginForm);
