@@ -8,8 +8,7 @@ import getMessages from './store/reducers/messages';
 
 const token = window.localStorage.getItem('discordClone/authentication/token');
 
-const store = configureStore({ auth: { token } });
-// store.dispatch(getMessages());
+const store = configureStore({ authentication: { token, email: "" } });
 
 ReactDOM.render(
   <React.StrictMode>

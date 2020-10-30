@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,7 +7,6 @@ import SignUpForm from './components/auth/SignUpForm';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
-import Chat from './components/chat/Chat';
 
 
 const App = (props) => (
@@ -19,7 +18,7 @@ const App = (props) => (
         path='/'
         exact={true}
         render={() => (
-          <Chat />
+          <Home props={props} />
         )} />
       <Route path='/login' exact={true} component={LoginForm} />
       <Route path='/signup' exact={true} component={SignUpForm} />
@@ -29,8 +28,34 @@ const App = (props) => (
 
 const mapStateToProps = state => {
   return {
-    token: state.authentication.token
+    // token: state.authentication.token,
+    // email: state.authentication.email
   }
 }
 
 export default connect(mapStateToProps)(App);
+
+
+// const App = (props) => {
+//   const []
+
+//   return (
+//     <BrowserRouter>
+//       <Navigation />
+//       <Switch>
+//         <ProtectedRoute
+//           isLoggedIn={props.token}
+//           path='/'
+//           exact={true}
+//           render={() => (
+//             <Home props={props} />
+//           )} />
+//         <Route path='/login' exact={true} component={LoginForm} />
+//         <Route path='/signup' exact={true} component={SignUpForm} />
+//       </Switch>
+//     </BrowserRouter>
+//   );
+
+// }
+
+// export default App;
