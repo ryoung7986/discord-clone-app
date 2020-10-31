@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login, updateEmailValue } from '../../store/actions/authentication';
-import { connect } from 'react-redux';
+import { login, setUserId } from '../../store/actions/authentication';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState('password');
+    const [email, setEmail] = useState('ryoung7986@gmail.com');
+    const [password, setPassword] = useState('1234');
     const token = useSelector((state) => state.authentication.token);
+    // const email = useSelector((state) => state.authentication.email);
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // debugger;
-        dispatch(updateEmailValue(email));
         dispatch(login(email, password));
     };
 
-    const updateProperty = (callback) => (e) => {
-        callback(e.target.value);
+    const updateEmail = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const updatePassword = (e) => {
+        setPassword(e.target.value);
     };
 
     if (token) {
@@ -33,13 +35,13 @@ const LoginForm = () => {
                     type='text'
                     placeholder='Email'
                     value={email}
-                    onChange={updateProperty(setEmail)}
+                    onChange={updateEmail}
                 />
                 <input
                     type='password'
                     placeholder='Password'
                     value={password}
-                    onChange={updateProperty(setPassword)}
+                    onChange={updatePassword}
                 />
                 <button type='submit'>Login</button>
             </form>

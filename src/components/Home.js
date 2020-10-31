@@ -2,12 +2,11 @@ import React from 'react'
 import Chat from './chat/Chat';
 import Sidebar from './sidebar/Sidebar';
 
-function Home(props) {
+function Home() {
     return (
         <>
-            <div></div>
-            {/* <Chat />
-            <Sidebar /> */}
+            <Chat />
+            <Sidebar />
         </>
     )
 }

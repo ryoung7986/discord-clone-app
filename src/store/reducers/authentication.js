@@ -1,4 +1,4 @@
-import { SET_TOKEN, REMOVE_TOKEN, UPDATE_EMAIL_VALUE } from '../actions/authentication';
+import { SET_TOKEN, REMOVE_TOKEN, SET_USER_ID } from '../actions/authentication';
 
 const initialState = {
     token: "",
@@ -18,10 +18,10 @@ export default function reducer(state = initialState, action) {
             delete newState.token;
             return newState;
         }
-        case UPDATE_EMAIL_VALUE: {
+        case SET_USER_ID: {
             return {
                 ...state,
-                email: action.email
+                userId: action.userId
             }
         }
         default:

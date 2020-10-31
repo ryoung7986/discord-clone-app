@@ -3,9 +3,10 @@ import { baseUrl } from '../../config/config';
 export const TOKEN_KEY = 'discordClone/authentication/token';
 export const SET_TOKEN = 'discordClone/authentication/SET_TOKEN';
 export const REMOVE_TOKEN = 'discordClone/authentication/REMOVE_TOKEN';
-export const UPDATE_EMAIL_VALUE = 'discordClone/authentication/UPDATE_EMAIL_VALUE';
+export const USER_ID = 'discordClone/authentication/USER_ID';
+export const SET_USER_ID = 'discordClone/authentication/SET_EMAIL_VALUE';
 
-export const updateEmailValue = (value) => ({ type: UPDATE_EMAIL_VALUE, value });
+export const setUserId = (value) => ({ type: SET_USER_ID, value });
 export const removeToken = (token) => ({ type: REMOVE_TOKEN });
 export const setToken = (token) => ({ type: SET_TOKEN, token });
 
@@ -41,9 +42,11 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     if (response.ok) {
-        const { token } = await response.json();
+        const { token, userId } = await response.json();
         window.localStorage.setItem(TOKEN_KEY, token);
+        window.localStorage.setItem(USER_ID, userId);
         dispatch(setToken(token));
+        dispatch(setUserId(userId));
     }
 };
 
