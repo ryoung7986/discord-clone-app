@@ -1,4 +1,5 @@
 import React from "react"
+import { useSelector } from 'react-redux';
 import "./Sidebar.css";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
@@ -26,9 +27,7 @@ function Sidebar() {
                     <AddIcon className="sidebar__addChannel" />
                 </div>
                 <div className="sidebar__channelsList">
-                    <SidebarChannel />
-                    <SidebarChannel />
-                    <SidebarChannel />
+
                 </div>
             </div>
 

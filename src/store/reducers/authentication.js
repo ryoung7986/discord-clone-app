@@ -2,7 +2,7 @@ import { SET_TOKEN, REMOVE_TOKEN, SET_USER_ID } from '../actions/authentication'
 
 const initialState = {
     token: "",
-    email: ""
+    userId: ""
 };
 
 export default function reducer(state = initialState, action) {
@@ -21,7 +21,7 @@ export default function reducer(state = initialState, action) {
         case SET_USER_ID: {
             return {
                 ...state,
-                userId: action.userId
+                userId: action.value
             }
         }
         default:

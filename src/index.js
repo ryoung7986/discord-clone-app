@@ -4,17 +4,24 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import getMessages from './store/reducers/messages';
+import { socketUrl } from './config/config';
+import io from 'socket.io-client';
+
+const socket = io.connect(socketUrl);
+
+socket.on('error', (error) => {
+  console.error(error);
+});
 
 const token = window.localStorage.getItem('discordClone/authentication/token');
-const email = window.localStorage.getItem('discordClone/authentication/SET_EMAIL_VALUE');
+const userId = window.localStorage.getItem('discordClone/authentication/SET_USER_ID');
 
-const store = configureStore({ authentication: { token, email } });
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <App socket={socket} />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,10 +1,11 @@
 import { baseUrl } from '../../config/config';
+import { addJoinedChannels } from './channels';
 
 export const TOKEN_KEY = 'discordClone/authentication/token';
 export const SET_TOKEN = 'discordClone/authentication/SET_TOKEN';
 export const REMOVE_TOKEN = 'discordClone/authentication/REMOVE_TOKEN';
 export const USER_ID = 'discordClone/authentication/USER_ID';
-export const SET_USER_ID = 'discordClone/authentication/SET_EMAIL_VALUE';
+export const SET_USER_ID = 'discordClone/authentication/SET_USER_ID';
 
 export const setUserId = (value) => ({ type: SET_USER_ID, value });
 export const removeToken = (token) => ({ type: REMOVE_TOKEN });
@@ -20,7 +21,9 @@ export const loadToken = () => async (dispatch) => {
 export const signUp = (user) => async (dispatch) => {
     const response = await fetch(`${baseUrl}/users`, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(user),
     });
     if (response.ok) {
@@ -33,7 +36,9 @@ export const signUp = (user) => async (dispatch) => {
 export const login = (email, password) => async (dispatch) => {
     const response = await fetch(`${baseUrl}/users`, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ email, password }),
     });
 
@@ -42,11 +47,12 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     if (response.ok) {
-        const { token, userId } = await response.json();
+        const { token, user, userChannels } = await response.json();
         window.localStorage.setItem(TOKEN_KEY, token);
-        window.localStorage.setItem(USER_ID, userId);
+        window.localStorage.setItem(USER_ID, user.id);
         dispatch(setToken(token));
-        dispatch(setUserId(userId));
+        dispatch(setUserId(user.id));
+        dispatch(addJoinedChannels(userChannels));
     }
 };
 
@@ -54,7 +60,7 @@ export const logout = () => async (dispatch, getState) => {
     const {
         authentication: { token },
     } = getState();
-    const response = await fetch(`${baseUrl}/session`, {
+    const response = await fetch(`${baseUrl}/users`, {
         method: 'delete',
         headers: { Authorization: `Bearer ${token}` },
     });
