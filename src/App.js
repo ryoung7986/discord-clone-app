@@ -8,17 +8,32 @@ import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import { loadToken, USER_ID } from './store/actions/authentication'
-import { addMessage } from './store/actions/messages';
-import { addJoinedChannels } from './store/actions/channels';
+import { setUserServers, setUserChannels, addJoinedChannel, addMessage, addChannels } from './store/actions/servers';
 import SocketContext from './SocketContext';
 
 const App = ({ isLoggedIn, socket, loadToken }) => {
   const [loaded, setLoaded] = useState(false);
-  const currentChannel = useSelector(state => state.channels.currentChannel);
-  const joinedChannels = useSelector(state => state.channels.joinedChannels);
+  const currentChannel = useSelector(state => state.servers.currentChannel.channel);
+  const joinedChannels = useSelector(state => state.servers.joinedChannels);
+  const userServers = useSelector(state => state.servers.servers);
+  const userId = useSelector(state => state.authentication.userId);
   const dispatch = useDispatch();
 
-  // Any time the current channel changes, send a 'join' message to the server.
+  useEffect(() => {
+    if (!userId) return;
+    if (userId) {
+      dispatch(setUserServers(userId));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userServers) {
+      const serverIds = (Object.keys(userServers));
+      console.log('what')
+      serverIds.forEach(serverId => dispatch(setUserChannels(serverId)));
+    }
+  }, [userServers])
+
   useEffect(() => {
     if (currentChannel) {
       console.log(`Joining ${currentChannel}`);
@@ -26,20 +41,16 @@ const App = ({ isLoggedIn, socket, loadToken }) => {
     }
   }, [currentChannel, socket]);
 
-  // Sets up the listener for new socket connections.
-  // It will just keep returning until there is a currentChannel
-  // that isn't already listed in joinedChannels
   useEffect(() => {
     if (!currentChannel) return;
     if (joinedChannels.includes(currentChannel)) return;
 
     socket.on(currentChannel, (message) => {
       console.log(`Received new message for ${message.text}`);
-      // If the current channel doesn't match the
-      // channel the message belongs to, it doesn't display
       dispatch(addMessage(message));
     });
-    dispatch(addJoinedChannels(currentChannel));
+
+    dispatch(addJoinedChannel(currentChannel));
   }, [currentChannel, dispatch, joinedChannels, socket]);
 
   // When the 'send' button is clicked, emit a message across the socket for the currentChannel
@@ -79,13 +90,7 @@ const App = ({ isLoggedIn, socket, loadToken }) => {
       <SocketContext.Provider value={socket}>
         <Navigation />
         <Switch>
-          <ProtectedRoute
-            isLoggedIn={isLoggedIn}
-            path='/'
-            exact={true}
-            render={() => (
-              <Home />
-            )} />
+          <ProtectedRoute isLoggedIn={isLoggedIn} path='/' exact={true} component={Home} />
           <Route path='/login' exact={true} component={LoginForm} />
           <Route path='/signup' exact={true} component={SignUpForm} />
         </Switch>
@@ -94,10 +99,14 @@ const App = ({ isLoggedIn, socket, loadToken }) => {
   );
 }
 
-const AppContainer = ({ socket }) => {
+const AppContainer = () => {
   const isLoggedIn = useSelector(state => state.authentication.token);
   const dispatch = useDispatch();
-  return <App isLoggedIn={isLoggedIn} loadToken={() => dispatch(loadToken())} />;
+  return <App
+    isLoggedIn={isLoggedIn}
+    loadToken={() => dispatch(loadToken())}
+
+  />;
 }
 
 export default AppContainer;

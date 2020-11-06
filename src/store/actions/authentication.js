@@ -1,5 +1,6 @@
 import { baseUrl } from '../../config/config';
-import { addJoinedChannels } from './channels';
+import { setDefaultChannels, setUserServers } from './servers';
+// import { addJoinedChannel, setDefaultChannels } from './channels';
 
 export const TOKEN_KEY = 'discordClone/authentication/token';
 export const SET_TOKEN = 'discordClone/authentication/SET_TOKEN';
@@ -8,7 +9,7 @@ export const USER_ID = 'discordClone/authentication/USER_ID';
 export const SET_USER_ID = 'discordClone/authentication/SET_USER_ID';
 
 export const setUserId = (value) => ({ type: SET_USER_ID, value });
-export const removeToken = (token) => ({ type: REMOVE_TOKEN });
+export const removeToken = (token) => ({ type: REMOVE_TOKEN, token });
 export const setToken = (token) => ({ type: SET_TOKEN, token });
 
 export const loadToken = () => async (dispatch) => {
@@ -47,12 +48,12 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     if (response.ok) {
-        const { token, user, userChannels } = await response.json();
+        const { token, user } = await response.json();
         window.localStorage.setItem(TOKEN_KEY, token);
         window.localStorage.setItem(USER_ID, user.id);
         dispatch(setToken(token));
         dispatch(setUserId(user.id));
-        dispatch(addJoinedChannels(userChannels));
+        dispatch(setUserServers(user.id));
     }
 };
 

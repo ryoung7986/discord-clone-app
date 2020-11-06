@@ -4,14 +4,14 @@ import thunk from 'redux-thunk';
 import authentication from './reducers/authentication';
 import messages from './reducers/messages';
 import channels from './reducers/channels';
+import servers from './reducers/servers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const composeEnhancers = composeWithDevTools({ trace: true });
 
 const reducers = combineReducers({
     authentication,
-    messages,
-    channels
+    servers
 });
 
 const configureStore = (initialState) => {
