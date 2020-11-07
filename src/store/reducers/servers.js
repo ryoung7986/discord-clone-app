@@ -4,7 +4,7 @@ import {
     SET_MESSAGES,
     UPDATE_MESSAGES,
     ADD_JOINED_CHANNEL,
-    SET_CURRENT_CHANNEL,
+    SET_CHANNEL,
     ADD_CHANNELS,
     SET_DEFAULT_CHANNELS,
     SET_USER_CHANNELS
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-    Object.freeze(state);
+    // Object.freeze(state);
     switch (action.type) {
         case LOAD_SERVERS: {
             return {
@@ -39,10 +39,10 @@ export default function reducer(state = initialState, action) {
         case SET_DEFAULT_CHANNELS: {
             return {
                 ...state,
-                joinedChannels: [...action.userChannels],
+                joinedChannels: [...state.joinedChannels, ...action.userChannels],
             };
         }
-        case SET_CURRENT_CHANNEL: {
+        case SET_CHANNEL: {
             return {
                 ...state,
                 currentChannel: action.channel

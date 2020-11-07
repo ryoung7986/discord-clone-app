@@ -28,8 +28,8 @@ const App = ({ isLoggedIn, socket, loadToken }) => {
 
   useEffect(() => {
     if (userServers) {
-      const serverIds = (Object.keys(userServers));
-      console.log('what')
+      const serverIds = userServers.map(a => a.id);
+      console.log("SERVER IDS:", serverIds)
       serverIds.forEach(serverId => dispatch(setUserChannels(serverId)));
     }
   }, [userServers])

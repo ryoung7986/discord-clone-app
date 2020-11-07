@@ -33,9 +33,9 @@ function Chat() {
                 </div>
             </div>
 
-            <div className="chat-main">
+            {/* <div className="chat-main">
                 <h1>Chat Log</h1>
-            </div>
+            </div> */}
         </div>
     )
 }

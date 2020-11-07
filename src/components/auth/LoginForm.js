@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login, setUserId } from '../../store/actions/authentication';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField'
+import Container from '@material-ui/core/Container'
 
 const LoginForm = () => {
     const [email, setEmail] = useState('ryoung7986@gmail.com');
@@ -28,24 +31,28 @@ const LoginForm = () => {
     }
 
     return (
-        <main>
+        <Container maxWidth="sm">
             <h1>Log In</h1>
             <form onSubmit={handleSubmit}>
-                <input
+                <TextField
+                    variant="outlined"
+                    size="small"
                     type='text'
                     placeholder='Email'
                     value={email}
                     onChange={updateEmail}
                 />
-                <input
+                <TextField
+                    variant="outlined"
+                    size="small"
                     type='password'
                     placeholder='Password'
                     value={password}
                     onChange={updatePassword}
                 />
-                <button type='submit'>Login</button>
+                <Button type='submit'>Login</Button>
             </form>
-        </main>
+        </Container>
     );
 };
 

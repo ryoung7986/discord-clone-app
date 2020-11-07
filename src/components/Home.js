@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Chat from './chat/Chat';
 import Sidebar from './sidebar/Sidebar';
+import Grid from '@material-ui/core/Grid'
 
 
 function Home() {
     return (
-        <div className="main">
-            <Chat />
+        <Grid container direction="row">
             <Sidebar />
-        </div>
+            <Chat />
+        </Grid>
     )
 }
 

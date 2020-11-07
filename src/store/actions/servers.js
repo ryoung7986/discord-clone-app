@@ -8,6 +8,7 @@ export const SET_MESSAGES = 'discordClone/servers/SET_MESSAGE';
 export const ADD_CHANNELS = 'ADD_CHANNELS';
 export const SET_DEFAULT_CHANNELS = 'discordClone/authentication/SET_DEFAULT_CHANNELS';
 export const SET_CURRENT_CHANNEL = 'discordClone/servers/SET_CURRENT_CHANNEL';
+export const SET_CHANNEL = 'discordClone/servers/SET_CHANNEL';
 export const ADD_JOINED_CHANNEL = 'discordClone/servers/ADD_JOINED_CHANNELS';
 export const SET_USER_CHANNELS = 'discordClone/servers/SET_USER_CHANNELS';
 
@@ -17,7 +18,9 @@ export const updateMessages = messages => ({ type: UPDATE_MESSAGES, messages });
 export const setUserChannels = (serverId) => async (dispatch) => {
     const response = await fetch(`${baseUrl}/channels/${serverId}`);
     const userChannels = await response.json();
-    console.log(userChannels)
+    console.log("SERVER ID:", serverId);
+    console.log("USER CHANNELS:", userChannels);
+    console.log("FUCKING RESPONSE FUCK:", response);
     dispatch(setDefaultChannels(userChannels));
 }
 
@@ -25,6 +28,13 @@ export const setUserServers = (userId) => async (dispatch) => {
     const response = await fetch(`${baseUrl}/servers/${userId}`);
     const servers = await response.json();
     dispatch(loadServers(servers));
+}
+
+export const setCurrentChannel = (channelId) => async (dispatch) => {
+    const response = await fetch(`${baseUrl}/channels/${channelId}`);
+    const channel = await response.json();
+    console.log("CHANNEL", channel)
+    dispatch(setChannel(channel));
 }
 
 export const addChannels = (channels) => {
@@ -41,9 +51,10 @@ export const setDefaultChannels = (userChannels) => {
     }
 }
 
-export const setCurrentChannel = (channel) => {
+
+export const setChannel = (channel) => {
     return {
-        type: SET_CURRENT_CHANNEL,
+        type: SET_CHANNEL,
         channel
     };
 }
